@@ -6,39 +6,42 @@ import java.util.List;
 public class Problem26 {
 
 	public static void main(String[] args) {
-		System.out.println(numRecurrance(99, 1));
+		int longest = -1;
+		int d = -1;
+		for (int i = 2; i < 1000; i++) {
+
+			int r = numRecurrance(i);
+			if (r > longest) {
+				longest = r;
+				d = i;
+			}
+
+		}
+		System.out.println(d);
+
 	}
 
-	public static int numRecurrance(int d, int a) {
+	public static int numRecurrance(int d) {
 
-		List<Integer> nums = new ArrayList<>();
+		List<Integer> remainders = new ArrayList<Integer>();
+		List<Integer> expansion = new ArrayList<Integer>();
 
-		int tax = 0;
-		for (;;) {
-			if (a == 0) {
-				return 0;
+		int n = 1;
+		while (true) {
+			int r = n % d;
+			// int dec = n / d;
+			// System.out.println(n + " " + r);
+
+			for (int i = 0; i < expansion.size(); i++) {
+				if (expansion.get(i) == n && remainders.get(i) == r) {
+					return expansion.size() - i;
+				}
 			}
 
-			a = makeMoreThan(d, a);
+			expansion.add(n);
+			remainders.add(r);
 
-			for (int ff : nums)
-				System.out.println(ff);
-
-			if (nums.contains(a)) {
-				return nums.size() - nums.indexOf(a) + tax;
-			}
-
-			nums.add(a);
-			int n = a / d;
-			a = a - n * d;
+			n = 10 * r;
 		}
 	}
-
-	public static int makeMoreThan(int d, int a) {
-		if (a < d)
-			return makeMoreThan(d, 10 * a);
-		else
-			return a;
-	}
-
 }

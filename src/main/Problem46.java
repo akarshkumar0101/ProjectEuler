@@ -1,5 +1,7 @@
 package main;
 
+import math.Prime;
+
 public class Problem46 {
 
 	public static void main(String[] args) {

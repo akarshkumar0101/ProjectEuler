@@ -12,7 +12,7 @@ public class Problem66 {
 	}
 	public static int findMinX(int d) {
 		int minX= Integer.MAX_VALUE;
-		for(int y=0;y<;y++) {
+		for(int y=0;y<3;y++) {
 			
 		}
 		return 0;
