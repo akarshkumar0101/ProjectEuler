@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class Problem47 {
 
 	public static void main(String[] args) {
-		int a = 644;
 		HashMap<Integer, Integer> f1 = math.Factorization.factorize(644);
 		HashMap<Integer, Integer> f2 = math.Factorization.factorize(645);
 		HashMap<Integer, Integer> f3 = math.Factorization.factorize(646);
