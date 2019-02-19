@@ -65,6 +65,7 @@ class Suduko {
 		if (this.grid[y][x] instanceof Integer)
 			return;
 
+		@SuppressWarnings("unchecked")
 		List<Integer> list = (List<Integer>) this.grid[y][x];
 
 		int gy = y / 3 * 3;

@@ -13,8 +13,8 @@ public class Problem67 {
 			"C:\\Users\\akars\\Documents\\Programming\\Project Euler Workspace\\Project Euler\\res\\p067_triangle.txt");
 
 	public static void main(String[] args) {
-		double[][] tri = loadTriangle(triFile, 100);
-		System.out.println(dijk(tri));
+		double[][] tri = Problem67.loadTriangle(Problem67.triFile, 100);
+		System.out.println(Problem67.dijk(tri));
 	}
 
 	public static double[][] loadTriangle(File file, int height) {
@@ -48,16 +48,18 @@ public class Problem67 {
 			for (int i = 0; i < tri[h].length; i++) {
 				double current = map[h][i];
 				double next1 = current + tri[h + 1][i], next2 = current + tri[h + 1][i + 1];
-				
-				if (map[h + 1][i] < next1)
+
+				if (map[h + 1][i] < next1) {
 					map[h + 1][i] = next1;
-				if (map[h + 1][i + 1] < next2)
+				}
+				if (map[h + 1][i + 1] < next2) {
 					map[h + 1][i + 1] = next2;
+				}
 			}
 		}
-		
-		int m = DoubleArrays.max(Arrays.lastElement(map));
-		return Arrays.lastElement(map)[m];
+
+		int mi = DoubleArrays.maxi(Arrays.lastElement(map));
+		return Arrays.lastElement(map)[mi];
 	}
 
 }
