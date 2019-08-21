@@ -8,21 +8,41 @@ public class Problem94 {
 		long limit = 1000000000 / 3 + 3;
 		// limit = 10;
 		long ans = 0;
-		for (int a = 1; a < limit; a++) {
+		for (long a = 1; a <= limit; a+=2) {
 
-			for (int b = a - 1; b <= a + 1; b += 2) {
+			for (long b = a - 1; b <= a + 1; b += 2) {
 				if (a + a + b <= 1000000000 && a != 0 && b != 0) {
-					BigInteger areaSqr = Problem94.getAreaSquared(a, a, b);
-					if (areaSqr != null && Problem94.isPerfectSquare(areaSqr)) {
-						ans += a + a + b;
+//					BigInteger areaSqr = Problem94.getAreaSquared(a, a, b);
+//					if (areaSqr != null && Problem94.isPerfectSquare(areaSqr)) {
+//						ans += a + a + b;
+//					}
+					if(isAreaInt(a, b)){
+						ans+=a+a+b;
 					}
 				}
 			}
-			if (a % 5 == 0) {
+			if (a % 1000001 == 0) {
 				System.out.println(a);
 			}
 		}
 		System.out.println(ans);
+	}
+
+	//sides: a a b
+	public static boolean isAreaInt(long a, long b){
+		// b/2 will be a .5 decimal if b is odd
+		if(b%2==1){
+			return false;
+		}
+		long hbsqr = a*a-(b/2)*(b/2);
+		BigInteger hbsqrBig = new BigInteger(String.valueOf(hbsqr));
+
+		BigInteger hb = hbsqrBig.sqrt();
+		if(hb.multiply(hb).equals(hbsqrBig)){
+			return true;
+		}
+
+		return false;
 	}
 
 	public static BigInteger getAreaSquared(int a, int b, int c) {

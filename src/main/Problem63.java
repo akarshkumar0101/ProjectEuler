@@ -2,45 +2,42 @@ package main;
 
 public class Problem63 {
 
-	public static void main(String[] args) {
-		int numInts = 0;
-		for (int n = 1; n < 12; n++) {
-			System.out.println(n + ": " + numCounts(n));
-			numInts += numCounts(n);
-		}
-		System.out.println(numInts);
-	}
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; ; n++) {
+            long minNDigitNum = minNum(n);
+            long maxNDigitNum = maxNum(n);
 
-	public static int numCounts(int n) {
-		long min = minNum(n), max = maxNum(n);
-		double lowroot = (double) nthRoot(min, n), highroot = (double) nthRoot(max, n);
-		for (int i = (int) Math.ceil(lowroot); i <= highroot; i++) {
-			System.out.println(i + "^" + n + "=" + Math.pow(i, n));
-		}
-		return (int) (Math.floor(highroot) - Math.ceil(lowroot));
-	}
+            double minNthRoot = Math.pow(minNDigitNum, 1.0 / n);
+            double maxNthRoot = Math.pow(maxNDigitNum, 1.0 / n);
 
-	public static double nthRoot(long a, int n) {
-		return (double) Math.pow(a, (double) 1 / n);
-	}
-//	public static BigDecimal minNthRoot(int n) {
-//		BigDecimal num = new BigDecimal(a);
-//		num.
-//	}
+//			System.out.println(minNDigitNum+" "+maxNDigitNum);
+//			System.out.println(minNthRoot+" "+maxNthRoot);
+            int minBase = (int) Math.ceil(minNthRoot);
+            int maxBase = (int) maxNthRoot;
+//			System.out.println(minBase+" "+maxBase);
+            int totalNumsInN = maxBase - minBase + 1;
+//			System.out.println(totalNumsInN);
 
-	public static long minNum(int ndigits) {
-		return (long) (Math.pow(10, ndigits - 1));
-	}
+            total += totalNumsInN;
 
-	public static long maxNum(int ndigits) {
-		return (long) (Math.pow(10, ndigits) - 1);
-	}
-//	public static BigInteger minNum(int ndigits) {
-//		return BigInteger.TEN.pow(ndigits - 1);
-//	}
+            //System.out.println();
 
-//	public static BigInteger maxNum(int ndigits) {
-//		return BigInteger.TEN.pow(ndigits).subtract(BigInteger.ONE);
-//	}
+            if (totalNumsInN == 0) {
+                break;
+            }
+        }
+        System.out.println(total);
+
+    }
+
+
+    public static long minNum(int ndigits) {
+        return (long) (Math.pow(10, ndigits - 1));
+    }
+
+    public static long maxNum(int ndigits) {
+        return (long) (Math.pow(10, ndigits) - 1);
+    }
 
 }

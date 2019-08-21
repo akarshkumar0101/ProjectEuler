@@ -1,84 +1,91 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import math.Prime;
 
 public class Problem60 {
-	public static final List<Integer> primes = new ArrayList<>();
+	public static final List<Long> primes = new ArrayList<>();
 
+	//26033
 	public static void main(String[] args) {
-		int l = 1;
-		while (Problem60.primes.size() < 1000) {
-			if (Prime.isPrime(l)) {
-				Problem60.primes.add(l);
+		for(long n=2;n<10000;n++){
+			if(isPrime(n)){
+				primes.add(n);
 			}
+		}
 
-			l++;
-		}
-		List<Integer> primeSet = new ArrayList<>();
-		int p = 0;
-		for (int i1 = 0; i1 < Problem60.primes.size(); i1++) {
-			System.out.println(i1);
-			primeSet.add(Problem60.primes.get(i1));
-			for (int i2 = 0; i2 < i1; i2++) {
-				p = Problem60.primes.get(i2);
-				if (primeSet.contains(p)) {
-					continue;
-				}
-				primeSet.add(p);
-				if (Problem60.satisfiesPrimeConcatenating(primeSet)) {
-					for (int i3 = 0; i3 < i2; i3++) {
-						p = Problem60.primes.get(i3);
-						if (primeSet.contains(p)) {
-							continue;
-						}
-						primeSet.add(p);
-						if (Problem60.satisfiesPrimeConcatenating(primeSet)) {
-							for (int i4 = 0; i4 < i3; i4++) {
-								p = Problem60.primes.get(i4);
-								if (primeSet.contains(p)) {
-									continue;
-								}
-								primeSet.add(p);
-								if (Problem60.satisfiesPrimeConcatenating(primeSet)) {
-									for (int i5 = 0; i5 < i4; i5++) {
-										p = Problem60.primes.get(i5);
-										if (primeSet.contains(p)) {
-											continue;
-										}
-										primeSet.add(p);
-										if (Problem60.satisfiesPrimeConcatenating(primeSet)) {
-											System.out.println(primeSet);
-										}
-										primeSet.remove(4);
-									}
-								}
-								primeSet.remove(3);
-							}
-						}
-						primeSet.remove(2);
-					}
-				}
-				primeSet.remove(1);
-			}
-			primeSet.remove(0);
-		}
+
+		Set<Long> primeSet = new HashSet<>();
+		search(primeSet,-1);
+		//System.out.println(primeSet);
+
+		long sum = sum(primeSet);
+		System.out.println(sum);
+
 	}
 
-	public static boolean satisfiesPrimeConcatenating(List<Integer> primes) {
-		for (int p1 : primes) {
-			for (int p2 : primes) {
+	public static boolean search(Set<Long> primeSet, int lastPrimeAddedID){
+		//System.out.println(primeSet);
+		//fail by default
+		if(!satisfiesPrimeConcatenating(primeSet)){
+			return false;
+		}
+		//found it!
+		if(primeSet.size()==5){
+			return true;
+		}
+		//keep searching
+		for(int primeID = lastPrimeAddedID+1; primeID<primes.size();primeID++){
+			long prime = primes.get(primeID);
+			primeSet.add(prime);
+			if(search(primeSet, primeID)){
+				return true;
+			}
+			primeSet.remove(prime);
+		}
+		return false;
+	}
+	public static long sum(Set<Long> set){
+		long sum = 0;
+		for(long p: set){
+			sum+=p;
+		}
+		return sum;
+	}
+
+	public static boolean satisfiesPrimeConcatenating(Set<Long> primeSet) {
+		for (long p1 : primeSet) {
+			if(!isPrime(p1)){
+				return false;
+			}
+			for (long p2 : primeSet) {
 				if (p1 == p2) {
 					continue;
 				}
 				long newp = Long.parseLong(p1 + "" + p2);
-				if (!Prime.isPrime(newp))
+				if (!isPrime(newp))
 					return false;
 			}
 		}
 		return true;
 	}
 
+	public static final Map<Long, Boolean> primeMap = new HashMap<>();
+	public static boolean isPrime(long num) {
+		if (num < 2)
+			return false;
+		if(primeMap.containsKey(num)){
+			return primeMap.get(num);
+		}
+		boolean isPrime = true;
+		for (long i = 2; i <= Math.sqrt(num); i++) {
+			if (num % i == 0) {
+				isPrime = false;
+				break;
+			}
+		}
+		primeMap.put(num,isPrime);
+		return isPrime;
+	}
 }
